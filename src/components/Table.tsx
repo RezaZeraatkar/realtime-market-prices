@@ -69,18 +69,20 @@ export default function Table({
       <table className='relative w-full'>
         <TableHeader />
         {loading ? (
-          <LineWave
-            height='100'
-            width='100'
-            color='white'
-            ariaLabel='line-wave'
-            wrapperStyle={{}}
-            wrapperClass='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
-            visible={true}
-            firstLineColor=''
-            middleLineColor=''
-            lastLineColor=''
-          />
+          <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1 transform'>
+            <LineWave
+              height='100'
+              width='100'
+              color='white'
+              ariaLabel='line-wave'
+              wrapperStyle={{}}
+              wrapperClass=''
+              visible={true}
+              firstLineColor=''
+              middleLineColor=''
+              lastLineColor=''
+            />
+          </div>
         ) : (
           <tbody>
             {data &&
