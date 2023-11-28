@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  @apply border-gray-400 text-gray-100;
+}
+
+.text-white-blur {
+  @apply text-white opacity-25;
+}

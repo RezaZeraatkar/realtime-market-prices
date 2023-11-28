@@ -7,6 +7,13 @@ import Layout from './Layout';
 import reportWebVitals from './reportWebVitals';
 
 import store from './store';
+import ErrorPage from 'pages/Error';
+import Favorites from 'pages/favorites';
+import All from 'pages/All';
+import Spot from 'pages/Spot';
+import Futures from 'pages/Futures';
+import NewListings from 'pages/newListings';
+import Rankings from 'pages/Rankings';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,6 +23,33 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'favorites',
+        element: <Favorites />,
+      },
+      {
+        path: 'all',
+        element: <All />,
+      },
+      {
+        path: 'spot',
+        element: <Spot />,
+      },
+      {
+        path: 'futures',
+        element: <Futures />,
+      },
+      {
+        path: 'newlistings',
+        element: <NewListings />,
+      },
+      {
+        path: 'rankings',
+        element: <Rankings />,
+      },
+    ],
   },
 ]);
 
