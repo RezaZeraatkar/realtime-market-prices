@@ -1,8 +1,13 @@
-import React from 'react';
+import { IMarketData } from '../@types/IData';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { setData, setReadyState } from 'store/slices/webSocketSlice';
+import { formatVolume } from 'utils/formatVolume';
 
 function FavoriteIcon({
-  size = '6',
-  stroke = '0',
+  size = 6,
+  stroke = 0,
   color = '#595D5A',
   className = '',
 }) {
@@ -25,8 +30,23 @@ function FavoriteIcon({
 }
 
 export default function All() {
-  const coinSymbol = 'btc';
-  const logoUrl = `https://api.bgcrypto.io/logo/${coinSymbol}.png`;
+  const dispatch = useDispatch();
+  const socketUrl = 'wss://api.bgcrypto.io/v1/public/markets';
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      console.log(JSON.parse(lastMessage.data));
+      dispatch(setData(JSON.parse(lastMessage.data)));
+    }
+    dispatch(setReadyState(readyState));
+  }, [lastMessage, readyState, dispatch]);
+
+  // @ts-ignore
+  const data: IMarketData = useSelector((state) => state.webSocket.data);
+  // @ts-ignore
+  const currentReadyState = useSelector((state) => state.webSocket.readyState);
+
   return (
     <div className='w-full'>
       <table className='w-full'>
@@ -42,25 +62,41 @@ export default function All() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className='px-2 pt-2'>
-              <div className='flex items-center gap-2'>
-                <span>
-                  <FavoriteIcon className='cursor-pointer' />
-                </span>
-                <span>
-                  <img src={logoUrl} height={18} width={18} alt={coinSymbol} />
-                </span>
-                <span>BTC</span>
-              </div>
-            </td>
-            <td className='px-2'>37931.10</td>
-            <td className='px-2 text-red-600'>-49.29%</td>
-            <td className='px-2'>Chart</td>
-            <td className='px-2'>267 M</td>
-            <td className='px-2'>5 T</td>
-            <td className='px-2'>Trade</td>
-          </tr>
+          {data &&
+            Object.keys(data.data).map((coinSymbol) => {
+              const coinData = data.data[coinSymbol];
+              const logoUrl = `https://api.bgcrypto.io/logo/${coinSymbol}.png`;
+              return (
+                <tr key={coinSymbol}>
+                  <td className='px-2 pt-2'>
+                    <div className='flex items-center gap-2'>
+                      <FavoriteIcon className='cursor-pointer' />
+                      <img
+                        src={logoUrl}
+                        height={18}
+                        width={18}
+                        alt={coinSymbol}
+                      />
+                      <span>{coinSymbol.toUpperCase()}</span>
+                    </div>
+                  </td>
+                  <td className='px-2'>{coinData.last}</td>
+                  <td
+                    className={`px-2 ${
+                      parseFloat(coinData.info.priceChangePercent) < 0
+                        ? 'text-red-600'
+                        : 'text-green-600'
+                    }`}
+                  >
+                    {parseFloat(coinData.info.priceChangePercent).toFixed(2)}%
+                  </td>
+                  <td className='px-2'>Chart</td>
+                  <td className='px-2'>{formatVolume(coinData.baseVolume)}</td>
+                  <td className='px-2'>{formatVolume(coinData.quoteVolume)}</td>
+                  <td className='px-2'>Trade</td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
