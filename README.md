@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Show the real-time price changes for digital assets
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+after starting the project, go to all page [http://localhost:3000/all](http://localhost:3000/all) to see the prices.
 
 ## Available Scripts
 

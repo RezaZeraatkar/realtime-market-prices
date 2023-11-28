@@ -9,3 +9,7 @@ html {
 .text-white-blur {
   @apply text-white opacity-25;
 }
+
+.pagination button {
+  @apply rounded-sm px-4;
+}

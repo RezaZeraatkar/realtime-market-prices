@@ -17,7 +17,7 @@ interface Info {
   count: string;
 }
 
-interface Data {
+export interface Data {
   symbol: string;
   timestamp: number;
   datetime: string;
