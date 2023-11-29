@@ -11,5 +11,5 @@ html {
 }
 
 .pagination button {
-  @apply rounded-sm px-4;
+  @apply rounded-sm px-2 md:px-4;
 }

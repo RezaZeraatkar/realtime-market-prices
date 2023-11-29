@@ -19,14 +19,18 @@ function Item({ children, isActive }: ItemProps) {
 
 export default function Filters() {
   return (
-    <div className='flex gap-3'>
-      <Item isActive={true}>All</Item>
-      <Item isActive={false}>Infrastructure</Item>
-      <Item isActive={false}>payments</Item>
-      <Item isActive={false}>defi</Item>
-      <Item isActive={false}>mems</Item>
-      <Item isActive={false}>web3</Item>
-      <Item isActive={false}>gaming</Item>
+    <div className='md:oveflow-hidden flex flex-col items-center gap-1 text-sm md:flex-row md:gap-1 md:text-inherit'>
+      <div className='flex gap-1'>
+        <Item isActive={true}>All</Item>
+        <Item isActive={false}>Infrastructure</Item>
+        <Item isActive={false}>payments</Item>
+        <Item isActive={false}>defi</Item>
+      </div>
+      <div className='flex gap-1'>
+        <Item isActive={false}>mems</Item>
+        <Item isActive={false}>web3</Item>
+        <Item isActive={false}>gaming</Item>
+      </div>
     </div>
   );
 }

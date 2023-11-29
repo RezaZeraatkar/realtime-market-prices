@@ -26,7 +26,7 @@ export default function Search() {
         <SearchIcon />
       </div>
       <input
-        className='text-white-blur bg-transparent px-2 py-1 text-sm font-bold outline-none'
+        className='placeholder:text-white-blur bg-transparent px-2 py-1 text-sm opacity-40 outline-none'
         type='text'
         placeholder='Search'
       />

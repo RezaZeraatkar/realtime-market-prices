@@ -21,37 +21,42 @@ export default function Pagination({
   );
 
   return (
-    <div className='pagination my-4 flex justify-center gap-2'>
-      <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
-        &lt;&lt;
-      </button>
-      <button
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        &lt;
-      </button>
-      {pageNumbers.map((number) => (
+    <div className='mx-auto'>
+      <div className='pagination my-4 flex justify-center gap-0 pt-2 md:gap-2'>
         <button
-          key={number}
-          onClick={() => handlePageChange(number)}
-          className={number === currentPage ? 'bg-blue-600' : ''}
+          onClick={() => handlePageChange(1)}
+          disabled={currentPage === 1}
         >
-          {number}
+          &lt;&lt;
         </button>
-      ))}
-      <button
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        &gt;
-      </button>
-      <button
-        onClick={() => handlePageChange(totalPages)}
-        disabled={currentPage === totalPages}
-      >
-        &gt;&gt;
-      </button>
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          &lt;
+        </button>
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => handlePageChange(number)}
+            className={number === currentPage ? 'bg-blue-600' : ''}
+          >
+            {number}
+          </button>
+        ))}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          &gt;
+        </button>
+        <button
+          onClick={() => handlePageChange(totalPages)}
+          disabled={currentPage === totalPages}
+        >
+          &gt;&gt;
+        </button>
+      </div>
     </div>
   );
 }

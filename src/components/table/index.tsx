@@ -18,11 +18,11 @@ export default function Table({
   cols: string[];
 }) {
   return (
-    <div className='w-full'>
+    <div className='w-full overflow-x-auto'>
       <table className='relative w-full'>
         <TableHeader cols={cols} />
         {loading ? (
-          <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1 transform'>
+          <div className='absolute left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform'>
             <LineWave
               height='100'
               width='100'

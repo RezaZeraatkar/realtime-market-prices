@@ -82,7 +82,7 @@ export function TableRow({
   return (
     <tr key={coinSymbol}>
       <td className='px-2 pt-2'>
-        <div className='flex items-center gap-2'>
+        <div className='flex w-[150px] items-center gap-2'>
           <FavoriteIcon className='cursor-pointer' />
           <img src={logoUrl} height={18} width={18} alt={coinSymbol} />
           <span>{coinSymbol.toUpperCase()}</span>

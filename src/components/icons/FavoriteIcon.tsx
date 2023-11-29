@@ -12,7 +12,9 @@ export default function FavoriteIcon({
       viewBox='0 0 24 24'
       strokeWidth={stroke}
       stroke='currentColor'
-      className={`h-6 w-6 ${className}`}
+      className={`flex-shrink-0 ${className}`}
+      height='24'
+      width='24'
     >
       <path
         strokeLinecap='round'

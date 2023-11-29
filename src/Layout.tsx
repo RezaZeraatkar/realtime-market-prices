@@ -6,16 +6,16 @@ import Filters from 'components/Filters';
 
 const Layout = () => {
   return (
-    <div className='flex min-h-screen flex-col gap-8 bg-black p-3'>
+    <div className='flex min-h-screen w-full flex-col gap-8 overflow-hidden bg-black p-3 text-sm'>
       <div className='flex items-center justify-between'>
         <Navbar />
         <Search />
       </div>
-      <div className='flex items-center justify-between'>
+      <div className='flex flex-col items-center justify-between gap-2 md:flex-row'>
         <Filters />
         <div className='flex items-center'>
           <div className='mr-1 h-4 w-4 rounded-[50%] border'></div>
-          <div className='text-white-blur text-sm leading-none opacity-20'>
+          <div className='text-white-blur text-sm leading-none'>
             Available for trading
           </div>
         </div>
