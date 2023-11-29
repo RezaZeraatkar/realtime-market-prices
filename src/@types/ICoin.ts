@@ -17,7 +17,7 @@ interface Info {
   count: string;
 }
 
-export interface Data {
+export interface Coin {
   symbol: string;
   timestamp: number;
   datetime: string;
@@ -35,9 +35,9 @@ export interface Data {
   info: Info;
 }
 
-export interface IMarketData {
+export interface ICoin {
   event: string;
   data: {
-    [key: string]: Data;
+    [key: string]: Coin;
   };
 }

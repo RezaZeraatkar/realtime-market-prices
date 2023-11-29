@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'components/Table';
-import { IMarketData } from '../@types/IData';
+import { ICoin } from '../@types/ICoin';
 import { useDispatch, useSelector } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
 import { setData, setReadyState } from 'store/slices/webSocketSlice';
@@ -22,10 +22,9 @@ export default function All() {
   }, [lastMessage, readyState, dispatch]);
 
   // @ts-ignore
-  const data: IMarketData = useSelector((state) => state.webSocket.data);
+  const data: ICoin = useSelector((state) => state.webSocket.data);
   // @ts-ignore
   const currentReadyState = useSelector((state) => state.webSocket.readyState);
-  console.log(currentReadyState);
 
   const itemsPerPage = 15;
 

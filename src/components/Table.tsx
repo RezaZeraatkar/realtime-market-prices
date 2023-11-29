@@ -1,13 +1,17 @@
-import { Data, IMarketData } from '../@types/IData';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Coin, ICoin } from '../@types/ICoin';
 import { formatVolume } from 'utils/formatVolume';
 import FavoriteIcon from './icons/FavoriteIcon';
 import { LineWave } from 'react-loader-spinner';
+import ApexCharts from 'apexcharts';
+
+import chartImg from 'chart.png';
+import ReactApexChart from 'react-apexcharts';
 
 function TableHeader() {
   return (
     <thead>
-      <tr className='from-custom-green border border-[#08397E] bg-gradient-to-r from-20% via-black to-black'>
+      <tr className='border border-[#08397E] bg-gradient-to-r from-custom-green from-20% via-black to-black'>
         <td className='px-2 py-1'>Product</td>
         <td className='px-2 py-1'>Price</td>
         <td className='px-2 py-1'>24h Change</td>
@@ -20,14 +24,73 @@ function TableHeader() {
   );
 }
 
-function TableRow({
-  coinSymbol,
-  coinData,
-}: {
-  coinSymbol: string;
-  coinData: Data;
-}) {
+function TableRow({ coinSymbol, coin }: { coinSymbol: string; coin: Coin }) {
   const logoUrl = `https://api.bgcrypto.io/logo/${coinSymbol}.png`;
+  // Define your chart series and options here
+  const [priceData, setPriceData] = useState([]);
+
+  useEffect(() => {
+    // Update priceData state whenever coin.last changes
+    // @ts-ignore
+    setPriceData((prevData) => [...prevData, coin.last]);
+  }, [coin.last]);
+
+  const series = [{ data: priceData }];
+  const options = {
+    chart: {
+      zoom: { enabled: false },
+      menu: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+        tools: {
+          download: false,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          customIcons: [],
+        },
+      },
+    },
+    tooltip: {
+      enabled: false,
+    },
+    stroke: {
+      colors: ['#008000'],
+      width: 1,
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    grid: {
+      show: false,
+    },
+    xaxis: {
+      labels: {
+        show: false, // This will hide the x-axis labels
+      },
+      axisBorder: {
+        show: false, // This will hide the x-axis border
+      },
+      axisTicks: {
+        show: false, // This will hide the x-axis ticks
+      },
+    },
+    yaxis: {
+      labels: {
+        show: false, // This will hide the y-axis labels
+      },
+      axisBorder: {
+        show: false, // This will hide the y-axis border
+      },
+      axisTicks: {
+        show: false, // This will hide the y-axis ticks
+      },
+    },
+  };
   return (
     <tr key={coinSymbol}>
       <td className='px-2 pt-2'>
@@ -37,19 +100,28 @@ function TableRow({
           <span>{coinSymbol.toUpperCase()}</span>
         </div>
       </td>
-      <td className='px-2'>{coinData.last}</td>
+      <td className='px-2'>{coin.last}</td>
       <td
         className={`px-2 ${
-          parseFloat(coinData.info.priceChangePercent) < 0
+          parseFloat(coin.info.priceChangePercent) < 0
             ? 'text-red-600'
             : 'text-green-600'
         }`}
       >
-        {parseFloat(coinData.info.priceChangePercent).toFixed(2)}%
+        {parseFloat(coin.info.priceChangePercent).toFixed(2)}%
       </td>
-      <td className='px-2'>Chart</td>
-      <td className='px-2'>{formatVolume(coinData.baseVolume)}</td>
-      <td className='px-2'>{formatVolume(coinData.quoteVolume)}</td>
+      <td className='px-2'>
+        {/* <img width={100} height={60} src={chartImg} alt='chart'></img> */}
+        <ReactApexChart
+          options={options}
+          series={series}
+          type='line'
+          height={100}
+          width={150}
+        />
+      </td>
+      <td className='px-2'>{formatVolume(coin.baseVolume)}</td>
+      <td className='px-2'>{formatVolume(coin.quoteVolume)}</td>
       <td className='px-2'>Trade</td>
     </tr>
   );
@@ -60,7 +132,7 @@ export default function Table({
   currentItems,
   loading,
 }: {
-  data: IMarketData;
+  data: ICoin;
   currentItems: string[];
   loading: boolean;
 }) {
@@ -87,8 +159,8 @@ export default function Table({
           <tbody>
             {data &&
               currentItems.map((coinSymbol) => {
-                const coinData = data.data[coinSymbol];
-                return <TableRow coinSymbol={coinSymbol} coinData={coinData} />;
+                const coin = data.data[coinSymbol];
+                return <TableRow coinSymbol={coinSymbol} coin={coin} />;
               })}
           </tbody>
         )}
