@@ -1,13 +1,28 @@
+// All.tsx
 import React, { useEffect, useState } from 'react';
-import Table from 'components/Table';
-import { ICoin } from '../@types/ICoin';
+import Table from 'components/table';
+import { ICoin } from 'types/ICoin';
 import { useDispatch, useSelector } from 'react-redux';
-import useWebSocket from 'react-use-websocket';
+import useWebSocket, { ReadyState as rs } from 'react-use-websocket';
 import { setData, setReadyState } from 'store/slices/webSocketSlice';
 import Pagination from 'components/Pagination';
+import { usePagination } from 'hooks/usePagination';
+import { RootState } from 'store/rootReducer';
+
+// Table header
+const cols = [
+  'Product',
+  'Price',
+  '24h Change',
+  'Market',
+  '24h baseVolume',
+  'quoteVolume',
+  'Actions',
+];
+// number of rows in each table page
+const itemsPerPage = 15;
 
 export default function All() {
-  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const socketUrl = 'wss://api.bgcrypto.io/v1/public/markets';
@@ -21,42 +36,60 @@ export default function All() {
     dispatch(setReadyState(readyState));
   }, [lastMessage, readyState, dispatch]);
 
-  // @ts-ignore
-  const data: ICoin = useSelector((state) => state.webSocket.data);
-  // @ts-ignore
-  const currentReadyState = useSelector((state) => state.webSocket.readyState);
+  const currentReadyState = useSelector(
+    (state: RootState) => state.webSocket.readyState
+  );
+  useEffect(() => {
+    switch (currentReadyState) {
+      case rs.CONNECTING:
+        // The connection is being established
+        console.log('Connecting to WebSocket server...');
+        break;
+      case rs.OPEN:
+        // The connection is open and ready to communicate
+        console.log('WebSocket connection established');
+        break;
+      case rs.CLOSING:
+        // The connection is closing
+        console.log('WebSocket connection closing...');
+        break;
+      case rs.CLOSED:
+        // The connection is closed or couldn't be opened
+        console.log('WebSocket connection closed');
+        // You can attempt to reconnect here
+        break;
+      default:
+        // The WebSocket object is not yet instantiated
+        console.log('WebSocket not instantiated');
+        break;
+    }
+  }, [currentReadyState]);
 
-  const itemsPerPage = 15;
-
-  // Calculate the total number of pages
-  const totalPages = data
-    ? Math.ceil(Object.keys(data.data).length / itemsPerPage)
-    : 0;
-
-  // Calculate the page numbers to display
-  let startPage = Math.max(1, currentPage - 2);
-  let endPage = Math.min(totalPages, startPage + 4);
-
-  // Adjust the start and end page if we're at the end of the page range
-  if (endPage - startPage < 4 && startPage > 1) {
-    startPage = Math.max(1, endPage - 4);
-  }
-
-  // Function to handle page change
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
+  const data: ICoin = useSelector((state: RootState) => state?.webSocket?.data);
+  const dataLength = data ? Object.keys(data.data).length : 0;
+  const {
+    startPage,
+    endPage,
+    currentPage,
+    totalPages,
+    handlePageChange,
+    startItem,
+    endItem,
+  } = usePagination(itemsPerPage, dataLength);
 
   // Get the items for the current page
-  const startItem = (currentPage - 1) * itemsPerPage;
-  const endItem = startItem + itemsPerPage;
   const currentItems = data
     ? Object.keys(data.data).slice(startItem, endItem)
     : [];
 
   return (
     <div className='w-full'>
-      <Table data={data} currentItems={currentItems} loading={loading} />
+      <Table
+        cols={cols}
+        data={data}
+        currentItems={currentItems}
+        loading={loading}
+      />
       {!loading && (
         <Pagination
           startPage={startPage}

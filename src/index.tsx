@@ -14,6 +14,7 @@ import Spot from 'pages/Spot';
 import Futures from 'pages/Futures';
 import NewListings from 'pages/newListings';
 import Rankings from 'pages/Rankings';
+import ErrorBoundary from 'pages/ErrorBoundry';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -31,7 +32,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'all',
-        element: <All />,
+        element: (
+          <ErrorBoundary>
+            <All />
+          </ErrorBoundary>
+        ),
       },
       {
         path: 'spot',

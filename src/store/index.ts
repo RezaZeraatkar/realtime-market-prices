@@ -1,10 +1,9 @@
+// store.ts
 import { configureStore } from '@reduxjs/toolkit';
-import webSocketReducer from 'store/slices/webSocketSlice';
+import rootReducer from './rootReducer';
 
 const store = configureStore({
-  reducer: {
-    webSocket: webSocketReducer,
-  },
+  reducer: rootReducer,
 });
 
 export default store;
