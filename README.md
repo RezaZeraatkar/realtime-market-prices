@@ -2,6 +2,17 @@
 
 after starting the project, go to all page [http://localhost:3000/all](http://localhost:3000/all) to see the prices.
 
+## Technology Stack
+
+- React
+- TypeScript
+- Tailwind CSS
+- Redux Toolkit / React Redux
+- React Router Dom
+- React ApexCharts (in this demo just some pictures used, but in order to enable these chart
+  using this library, you have to uncomment related parts in TableRow component and comment out img tag)
+- React Use WebSocket
+
 ## Available Scripts
 
 In the project directory, you can run:
