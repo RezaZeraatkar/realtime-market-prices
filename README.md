@@ -1,7 +1,7 @@
 # Show the real-time price changes for digital assets
 
 after starting the project, go to all page [http://localhost:3000/all](http://localhost:3000/all) to see the prices.
-<img src="https://res.cloudinary.com/db7v5ycxn/image/upload/v1702666160/github-readme-images/aprlzfs8ly7fn3mleogv.png" width="100%" height="500px"/>
+<img src="https://res.cloudinary.com/db7v5ycxn/image/upload/v1702666160/github-readme-images/aprlzfs8ly7fn3mleogv.png" width="100%" height="500px" style="margin-top:10px;"/>
 
 <div style="display:flex; justify-content:space-between; width:100%;">
 <img src="https://res.cloudinary.com/db7v5ycxn/image/upload/v1702666159/github-readme-images/k7pknvh9nfz1af42j7lf.png" width="48%"/>
